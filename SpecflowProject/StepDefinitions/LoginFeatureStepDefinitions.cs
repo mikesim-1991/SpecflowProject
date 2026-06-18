@@ -27,6 +27,7 @@ namespace SpecflowProject.StepDefinitions
         [Given("I have navigated to the login page")]
         public async Task GivenIHaveNavigatedToTheLoginPage()
         {
+            LoggerManager.LogInfo($"Navigating to the login page: {ConstantStrings.BaseUrl}");
 
             await _page.GotoAsync(ConstantStrings.BaseUrl);
         }
@@ -40,6 +41,7 @@ namespace SpecflowProject.StepDefinitions
         [When(@"I enter a username ""(.*)"" and password ""(.*)""")]
         public async Task WhenIEnterValidUserAndPass(string username, string password)
         {
+            LoggerManager.LogInfo($"Entering username: {username} and password: {password}");
 
             await _page.FillAsync("#user-name", username);
             await _page.FillAsync("#password", password);
@@ -53,8 +55,9 @@ namespace SpecflowProject.StepDefinitions
         [When("I tap Login")]
         public async Task WhenITapLogin()
         {
-            await _page.ClickAsync("#login-button");    
-            
+            LoggerManager.LogInfo("Clicking the login button");
+
+            await _page.ClickAsync("#login-button");             
         }
 
         /// <summary>
@@ -65,6 +68,8 @@ namespace SpecflowProject.StepDefinitions
         [Then("I should see home page")]
         public async Task ThenIShouldSeeHomePage()
         {
+            LoggerManager.LogInfo("Verifying that the home page is displayed after login");
+
             Assert.That(await _page.IsVisibleAsync(".inventory_list"), Is.True);
         }
 
@@ -77,6 +82,8 @@ namespace SpecflowProject.StepDefinitions
         [Then(@"I should see an error message ""(.*)"" indicating invalid credentials")]
         public async Task ThenIShouldSeeAnErrorMessageIndicatingInvalidCredentials(string errorMessage)
         {
+            LoggerManager.LogInfo($"Verifying that the error message '{errorMessage}' is displayed after failed login attempt");
+
             var errorContainer = await _page.Locator(".error-message-container").InnerHTMLAsync();
 
             Assert.That(errorContainer.Contains(errorMessage));
