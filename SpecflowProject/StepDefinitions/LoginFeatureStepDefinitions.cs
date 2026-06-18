@@ -43,8 +43,8 @@ namespace SpecflowProject.StepDefinitions
         {
             LoggerManager.LogInfo($"Entering username: {username} and password: {password}");
 
-            await _page.FillAsync("#user-name", username);
-            await _page.FillAsync("#password", password);
+            await _page.GetByPlaceholder("Username").FillAsync(username);
+            await _page.GetByPlaceholder("Password").FillAsync(password);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace SpecflowProject.StepDefinitions
         {
             LoggerManager.LogInfo("Clicking the login button");
 
-            await _page.ClickAsync("#login-button");             
+            await _page.GetByRole(AriaRole.Button, new() { Name = "Login" }).ClickAsync();
         }
 
         /// <summary>
@@ -70,7 +70,11 @@ namespace SpecflowProject.StepDefinitions
         {
             LoggerManager.LogInfo("Verifying that the home page is displayed after login");
 
-            Assert.That(await _page.IsVisibleAsync(".inventory_list"), Is.True);
+            var pageTitle = await _page.GetByText("Swag Labs").InnerHTMLAsync();
+            var inventoryListVisible = await _page.IsVisibleAsync(".inventory_list");
+
+            Assert.That(pageTitle, Is.EqualTo("Swag Labs"));
+            Assert.That(inventoryListVisible, Is.True);
         }
 
         /// <summary>
