@@ -136,7 +136,9 @@
     Potential Future Improvements
     
     Given additional time, the following enhancements could be implemented:
-    
+
+    Replace ScenarioContext object sharing with dependency injection
+    Implement the Pages layer to adhere to the Page Object Design Pattern fully
     CI/CD integration using GitHub Actions
     Parallel test execution
     Multiple environment support (QA/UAT/Production)
