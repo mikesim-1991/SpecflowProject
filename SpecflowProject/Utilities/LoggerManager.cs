@@ -19,6 +19,11 @@ namespace SpecflowProject.Utilities
         /// <param name="logType">The type of log message (Info, Warning, Error, etc.).</param>
         public static void LogInfo(string message, LogTypeEnum logType = LogTypeEnum.Info)
         {
+            if(message == null)
+            {
+                log.Error("Log message cannot be null.");
+                throw new ArgumentNullException(nameof(message), "Log message cannot be null.");
+            }
 
             var logRepository = LogManager.GetRepository(System.Reflection.Assembly.GetExecutingAssembly());
 
