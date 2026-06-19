@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using NUnit.Framework;
+using SpecflowProject.Pages;
 using SpecflowProject.Utilities;
 
 namespace SpecflowProject.StepDefinitions
@@ -11,14 +12,18 @@ namespace SpecflowProject.StepDefinitions
     public class LoginFeatureStepDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
-        private IPage _page;
+        private readonly LoginPage _loginPage;
 
-        public LoginFeatureStepDefinitions(ScenarioContext scenarioContext)
+        public LoginFeatureStepDefinitions(
+            ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _page = _scenarioContext["Page"] as IPage;
-        }
 
+            var page =
+                _scenarioContext["Page"] as IPage;
+
+            _loginPage = new LoginPage(page);
+        }
 
         /// <summary>
         /// Navigates to the login page of the application.
@@ -27,9 +32,7 @@ namespace SpecflowProject.StepDefinitions
         [Given("I have navigated to the login page")]
         public async Task GivenIHaveNavigatedToTheLoginPage()
         {
-            LoggerManager.LogInfo($"Navigating to the login page: {ConstantStrings.BaseUrl}");
-
-            await _page.GotoAsync(ConstantStrings.BaseUrl);
+            await _loginPage.NavigateToLoginPage(ConstantStrings.BaseUrl);
         }
 
         /// <summary>
@@ -41,10 +44,7 @@ namespace SpecflowProject.StepDefinitions
         [When(@"I enter a username ""(.*)"" and password ""(.*)""")]
         public async Task WhenIEnterValidUserAndPass(string username, string password)
         {
-            LoggerManager.LogInfo($"Entering username: {username} and password: {password}");
-
-            await _page.GetByPlaceholder("Username").FillAsync(username);
-            await _page.GetByPlaceholder("Password").FillAsync(password);
+            await _loginPage.EnterCredentials(username, password);
         }
 
         /// <summary>
@@ -55,9 +55,7 @@ namespace SpecflowProject.StepDefinitions
         [When("I tap Login")]
         public async Task WhenITapLogin()
         {
-            LoggerManager.LogInfo("Clicking the login button");
-
-            await _page.GetByRole(AriaRole.Button, new() { Name = "Login" }).ClickAsync();
+            await _loginPage.ClickLoginButton();
         }
 
         /// <summary>
@@ -68,13 +66,7 @@ namespace SpecflowProject.StepDefinitions
         [Then("I should see home page")]
         public async Task ThenIShouldSeeHomePage()
         {
-            LoggerManager.LogInfo("Verifying that the home page is displayed after login");
-
-            var pageTitle = await _page.GetByText("Swag Labs").InnerHTMLAsync();
-            var inventoryListVisible = await _page.IsVisibleAsync(".inventory_list");
-
-            Assert.That(pageTitle, Is.EqualTo("Swag Labs"));
-            Assert.That(inventoryListVisible, Is.True);
+            await _loginPage.IsHomePageDisplayed();
         }
 
         /// <summary>
@@ -86,11 +78,7 @@ namespace SpecflowProject.StepDefinitions
         [Then(@"I should see an error message ""(.*)"" indicating invalid credentials")]
         public async Task ThenIShouldSeeAnErrorMessageIndicatingInvalidCredentials(string errorMessage)
         {
-            LoggerManager.LogInfo($"Verifying that the error message '{errorMessage}' is displayed after failed login attempt");
-
-            var errorContainer = await _page.Locator(".error-message-container").InnerHTMLAsync();
-
-            Assert.That(errorContainer.Contains(errorMessage));
+            await _loginPage.IsErrorMessageDisplayed(errorMessage);
         }
     }
 }
