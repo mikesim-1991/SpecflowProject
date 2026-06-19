@@ -1,7 +1,6 @@
 using Microsoft.Playwright;
-using NUnit.Framework;
+using SpecflowProject.Config;
 using SpecflowProject.Pages;
-using SpecflowProject.Utilities;
 
 namespace SpecflowProject.StepDefinitions
 {
@@ -32,7 +31,7 @@ namespace SpecflowProject.StepDefinitions
         [Given("I have navigated to the login page")]
         public async Task GivenIHaveNavigatedToTheLoginPage()
         {
-            await _loginPage.NavigateToLoginPage(ConstantStrings.BaseUrl);
+            await _loginPage.NavigateToLoginPage(ConfigurationLoader.AppSettings.BaseUrl);
         }
 
         /// <summary>
