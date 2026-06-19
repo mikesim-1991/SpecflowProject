@@ -139,6 +139,7 @@
 
     Replace ScenarioContext object sharing with dependency injection
     Implement the Pages layer to adhere to the Page Object Design Pattern fully
+    Store configuration settings within IConfiguration with the support of dependency injection
     CI/CD integration using GitHub Actions
     Parallel test execution
     Multiple environment support (QA/UAT/Production)
