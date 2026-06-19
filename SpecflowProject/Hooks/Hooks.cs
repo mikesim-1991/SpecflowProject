@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using SpecflowProject.Config;
 using SpecflowProject.Utilities;
 
 namespace SpecflowProject.Hooks
@@ -53,26 +53,15 @@ namespace SpecflowProject.Hooks
         }
 
         /// <summary>
-        /// BeforeTestRun hook method that runs before the entire test run. You can use this method to perform any setup or initialization required before executing all tests.
+        /// BeforeTestRun hook method that runs before the entire test run. 
+        /// You can use this method to perform any setup or initialization required before executing all tests.
         /// </summary>
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
             try
             {
-                LoggerManager.LogInfo("Initializing configuration settings from appsettings.json...");
-
-                var configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\Config\\")
-                    .AddJsonFile("Appsettings.json")
-                    .Build();
-
-                var baseUrl = configuration["AppSettings:baseUrl"];
-                var browserType = configuration["AppSettings:browserType"];
-
-                ConstantStrings.BaseUrl = baseUrl;
-                ConstantStrings.BrowserType = browserType;
-
+                ConfigurationLoader.Load();
             }
             catch (Exception ex)
             {
@@ -104,20 +93,20 @@ namespace SpecflowProject.Hooks
                 throw new ArgumentNullException(nameof(playwright), "Playwright instance cannot be null.");
             }
 
-            if(string.IsNullOrEmpty(ConstantStrings.BrowserType))
+            if(string.IsNullOrEmpty(ConfigurationLoader.AppSettings.BrowserType))
             {
                 LoggerManager.LogInfo("Browser type is not specified in the configuration.", LogTypeEnum.Error);
 
                 throw new ArgumentException("Browser type is not specified in the configuration.");
             }
 
-            if (ConstantStrings.BrowserType.Equals("chrome", StringComparison.OrdinalIgnoreCase))
+            if (ConfigurationLoader.AppSettings.BrowserType.Equals("chrome", StringComparison.OrdinalIgnoreCase))
             {
                 LoggerManager.LogInfo("Launching Chrome browser.");
 
                 browser = await playwright.Chromium.LaunchAsync(options ?? new BrowserTypeLaunchOptions { Headless = false });
             }
-            else if (ConstantStrings.BrowserType.Equals("firefox", StringComparison.OrdinalIgnoreCase))
+            else if (ConfigurationLoader.AppSettings.BrowserType.Equals("firefox", StringComparison.OrdinalIgnoreCase))
             {
                 LoggerManager.LogInfo("Launching Firefox browser.");
 
@@ -125,9 +114,9 @@ namespace SpecflowProject.Hooks
             }
             else
             {
-                LoggerManager.LogInfo($"Unsupported browser type: {ConstantStrings.BrowserType}", LogTypeEnum.Error);
+                LoggerManager.LogInfo($"Unsupported browser type: {ConfigurationLoader.AppSettings.BrowserType}", LogTypeEnum.Error);
 
-                throw new ArgumentException($"Unsupported browser type: {ConstantStrings.BrowserType}");
+                throw new ArgumentException($"Unsupported browser type: {ConfigurationLoader.AppSettings.BrowserType}");
             }
 
             return browser;
