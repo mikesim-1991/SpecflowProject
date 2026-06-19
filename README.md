@@ -19,6 +19,7 @@
     Project Structure
     ├── Config
     │   └── appsettings.json
+    │   └── ConfigurationLoader.cs
     ├── ExtentReports
     │   └── ExtentReports.html
     ├── Features
