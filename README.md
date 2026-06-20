@@ -18,7 +18,6 @@
     
     Project Structure
     ├── Config
-    │   └── appsettings.json
     │   └── ConfigurationLoader.cs
     ├── ExtentReports
     │   └── ExtentReports.html
@@ -42,7 +41,7 @@
     │   └── LoggerManager.cs
     │   └── LogTypeEnum.cs
     │   └── ScreenshotHelper.cs
-    └── README.md
+    └── appsettings.json
 
     Note: ExtentReports and Logs directories are excluded from version control.
     
