@@ -18,9 +18,11 @@ namespace SpecflowProject.Config
         {
             LoggerManager.LogInfo("Loading configuration from appsettings.json");
 
+            var configDirectory = AppContext.BaseDirectory;
+
             AppSettings = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\Config\\")
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(configDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build()
                 .GetSection("AppSettings")
                 .Get<AppSettings>()!;

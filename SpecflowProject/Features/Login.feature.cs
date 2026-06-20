@@ -20,14 +20,14 @@ namespace SpecflowProject.Features
     [global::NUnit.Framework.TestFixtureAttribute()]
     [global::NUnit.Framework.DescriptionAttribute("Login feature")]
     [global::NUnit.Framework.FixtureLifeCycleAttribute(global::NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    [global::NUnit.Framework.CategoryAttribute("regression")]
+    [global::NUnit.Framework.CategoryAttribute("login")]
     public partial class LoginFeatureFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "regression"};
+                "login"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Login feature", "In order to perform successful login\r\nAs a User\r\nI have to enter correct username" +
                 " and password", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -113,20 +113,13 @@ namespace SpecflowProject.Features
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Successful login with valid credentials")]
-        [global::NUnit.Framework.CategoryAttribute("login")]
         [global::NUnit.Framework.TestCaseAttribute("standard_user", "secret_sauce", "0", null)]
         [global::NUnit.Framework.TestCaseAttribute("problem_user", "secret_sauce", "1", null)]
         [global::NUnit.Framework.TestCaseAttribute("visual_user", "secret_sauce", "2", null)]
         [global::NUnit.Framework.TestCaseAttribute("performance_glitch_user", "secret_sauce", "3", null)]
         public async global::System.Threading.Tasks.Task SuccessfulLoginWithValidCredentials(string username, string password, string @__pickleIndex, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "login"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("username", username);
             argumentsOfScenario.Add("password", password);
@@ -134,7 +127,7 @@ namespace SpecflowProject.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successful login with valid credentials", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 8
+#line 7
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -144,16 +137,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 9
+#line 8
  await testRunner.GivenAsync("I have navigated to the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 10
+#line 9
  await testRunner.WhenAsync(string.Format("I enter a username \"{0}\" and password \"{1}\"", username, password), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 11
+#line 10
  await testRunner.AndAsync("I tap Login", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 12
+#line 11
  await testRunner.ThenAsync("I should see home page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -162,21 +155,12 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Unsuccessful login with invalid credentials")]
-        [global::NUnit.Framework.CategoryAttribute("login")]
-        [global::NUnit.Framework.CategoryAttribute("smoke")]
         [global::NUnit.Framework.TestCaseAttribute("locked_out_user", "secret_sauce", "Sorry, this user has been locked out.", "4", null)]
         [global::NUnit.Framework.TestCaseAttribute("", "", "Username is required", "5", null)]
         [global::NUnit.Framework.TestCaseAttribute("standard_user", "", "Password is required", "6", null)]
         public async global::System.Threading.Tasks.Task UnsuccessfulLoginWithInvalidCredentials(string username, string password, string error, string @__pickleIndex, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "login",
-                    "smoke"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("username", username);
             argumentsOfScenario.Add("password", password);
@@ -185,7 +169,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Unsuccessful login with invalid credentials", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 23
+#line 20
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -195,16 +179,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 24
+#line 21
  await testRunner.GivenAsync("I have navigated to the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 25
+#line 22
  await testRunner.WhenAsync(string.Format("I enter a username \"{0}\" and password \"{1}\"", username, password), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 23
  await testRunner.AndAsync("I tap Login", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 27
+#line 24
  await testRunner.ThenAsync(string.Format("I should see an error message \"{0}\" indicating invalid credentials", error), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
