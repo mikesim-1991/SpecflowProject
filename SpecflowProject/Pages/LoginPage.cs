@@ -1,12 +1,11 @@
 ﻿using Microsoft.Playwright;
-using NUnit.Framework;
 using SpecflowProject.Utilities;
 
 namespace SpecflowProject.Pages
 {
     public class LoginPage 
     {
-        private IPage _page;
+        private readonly IPage _page;
 
         private ILocator UsernameInput => _page.GetByPlaceholder("Username");
         private ILocator PasswordInput => _page.GetByPlaceholder("Password");
@@ -74,11 +73,11 @@ namespace SpecflowProject.Pages
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        public async Task<string> IsErrorMessageDisplayed(string errorMessage)
+        public async Task<string> IsErrorMessageDisplayed()
         {
-            LoggerManager.LogInfo($"Verifying that the error message '{errorMessage}' is displayed after failed login attempt");
+            LoggerManager.LogInfo($"Verifying that the error message  is displayed after failed login attempt");
 
-            return await ErrorMessageContainer.InnerHTMLAsync();
+            return await ErrorMessageContainer.TextContentAsync() ?? string.Empty; ;
         }
     }
 }
