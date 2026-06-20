@@ -83,7 +83,7 @@ namespace SpecflowProject.StepDefinitions
         {
             LoggerManager.LogInfo($"Asserting that the error message '{errorMessage}' is displayed after failed login attempt");
 
-            var errorContainer = await _loginPage.IsErrorMessageDisplayed(errorMessage);
+            var errorContainer = await _loginPage.IsErrorMessageDisplayed();
 
             Assert.That(errorContainer.Contains(errorMessage));
         }
