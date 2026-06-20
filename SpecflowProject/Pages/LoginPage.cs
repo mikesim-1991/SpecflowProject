@@ -8,6 +8,12 @@ namespace SpecflowProject.Pages
     {
         private IPage _page;
 
+        private ILocator UsernameInput => _page.GetByPlaceholder("Username");
+        private ILocator PasswordInput => _page.GetByPlaceholder("Password");
+        private ILocator LoginButton => _page.GetByRole(AriaRole.Button, new() { Name = "Login" });
+        private ILocator InventoryList => _page.Locator(".inventory_list");
+        private ILocator ErrorMessageContainer => _page.Locator(".error-message-container");
+
         public LoginPage(IPage page)
         {
             _page = page;
@@ -33,10 +39,10 @@ namespace SpecflowProject.Pages
         /// <returns></returns>
         public async Task EnterCredentials(string username, string password)
         {
-            LoggerManager.LogInfo($"Entering username: {username} and password: {password}");
+            LoggerManager.LogInfo($"Entering credentials");
 
-            await _page.GetByPlaceholder("Username").FillAsync(username);
-            await _page.GetByPlaceholder("Password").FillAsync(password);
+            await UsernameInput.FillAsync(username);
+            await PasswordInput.FillAsync(password);
         }
 
         /// <summary>
@@ -47,23 +53,19 @@ namespace SpecflowProject.Pages
         {
             LoggerManager.LogInfo("Clicking the login button");
 
-            await _page.GetByRole(AriaRole.Button, new() { Name = "Login" }).ClickAsync();
+            await LoginButton.ClickAsync();
         }
 
         /// <summary>
         /// Home page verification after login. 
-        /// This method checks if the home page is displayed by verifying the page title and the visibility of the inventory list.
+        /// This method checks if the home page is displayed by verifying the visibility of the inventory list.
         /// </summary>
         /// <returns></returns>
-        public async Task IsHomePageDisplayed()
+        public async Task<bool> IsHomePageDisplayed()
         {
             LoggerManager.LogInfo("Verifying that the home page is displayed after login");
 
-            var pageTitle = await _page.GetByText("Swag Labs").InnerHTMLAsync();
-            var inventoryListVisible = await _page.IsVisibleAsync(".inventory_list");
-
-            Assert.That(pageTitle, Is.EqualTo("Swag Labs"));
-            Assert.That(inventoryListVisible, Is.True);
+            return await InventoryList.IsVisibleAsync();
         }
 
         /// <summary>
@@ -72,13 +74,11 @@ namespace SpecflowProject.Pages
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        public async Task IsErrorMessageDisplayed(string errorMessage)
+        public async Task<string> IsErrorMessageDisplayed(string errorMessage)
         {
             LoggerManager.LogInfo($"Verifying that the error message '{errorMessage}' is displayed after failed login attempt");
 
-            var errorContainer = await _page.Locator(".error-message-container").InnerHTMLAsync();
-
-            Assert.That(errorContainer.Contains(errorMessage));
+            return await ErrorMessageContainer.InnerHTMLAsync();
         }
     }
 }

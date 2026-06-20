@@ -1,6 +1,8 @@
 using Microsoft.Playwright;
+using NUnit.Framework;
 using SpecflowProject.Config;
 using SpecflowProject.Pages;
+using SpecflowProject.Utilities;
 
 namespace SpecflowProject.StepDefinitions
 {
@@ -65,7 +67,9 @@ namespace SpecflowProject.StepDefinitions
         [Then("I should see home page")]
         public async Task ThenIShouldSeeHomePage()
         {
-            await _loginPage.IsHomePageDisplayed();
+            LoggerManager.LogInfo("Asserting that the home page is displayed after login");
+
+            Assert.That(await _loginPage.IsHomePageDisplayed(), Is.True);
         }
 
         /// <summary>
@@ -77,7 +81,11 @@ namespace SpecflowProject.StepDefinitions
         [Then(@"I should see an error message ""(.*)"" indicating invalid credentials")]
         public async Task ThenIShouldSeeAnErrorMessageIndicatingInvalidCredentials(string errorMessage)
         {
-            await _loginPage.IsErrorMessageDisplayed(errorMessage);
+            LoggerManager.LogInfo($"Asserting that the error message '{errorMessage}' is displayed after failed login attempt");
+
+            var errorContainer = await _loginPage.IsErrorMessageDisplayed(errorMessage);
+
+            Assert.That(errorContainer.Contains(errorMessage));
         }
     }
 }
